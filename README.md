@@ -72,10 +72,10 @@ for (int i = 0; i < row; i++)                                                   
 ```
 ##Constructed a Tree by Breadth-First Search(BFS)
 -
--此副程式是我們的程式中許多副程式的核心邏輯
--尋找兩點最短距離、建構一顆樹 by BFS 並給出第幾level有幾個點、有幾個 connected components，都是以此副程式為基礎去完成的
--Tree constructed by BFS 每個 level 有幾個點等於上個 level 推入幾個點進 quene 
--我們用`pre_push_in_times`、`now_push_in_times`來記錄上次推入幾個點進 quene ，和這次推入幾個點進 quene
+- 此副程式是我們的程式中許多副程式的核心邏輯
+- 尋找兩點最短距離、建構一顆樹 by BFS 並給出第幾level有幾個點、有幾個 connected components，都是以此副程式為基礎去完成的
+- Tree constructed by BFS 每個 level 有幾個點等於上個 level 推入幾個點進 quene 
+- 我們用`pre_push_in_times`、`now_push_in_times`來記錄上次推入幾個點進 quene ，和這次推入幾個點進 quene
 ```
 void bfs(int vertex, adjList *graph)
 {
