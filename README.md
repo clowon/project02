@@ -72,7 +72,7 @@ for (int i = 0; i < row; i++)                                                   
         }
     }
 ```
-##Constructed a Tree by Breadth-First Search(BFS)
+## Constructed a Tree by Breadth-First Search(BFS)
 -
 - 此副程式是我們的程式中許多副程式的核心邏輯
 - 尋找兩點最短距離、建構一顆樹 by BFS 並給出第幾level有幾個點、有幾個 connected components，都是以此副程式為基礎去完成的
@@ -115,7 +115,7 @@ void bfs(int vertex, adjList *graph)
     cout << "end" << endl;
 }
 ```
-##尋找兩點最短路徑長度
+## 尋找兩點最短路徑長度
 - 由副程式 `bfs` 為基礎修改而成
 - 因為這次的圖都是 Undirected Graph 和 每條邊上的權重都是1，所以兩點 v ,u 最短路徑長度等於 L-1 (tree constructed by BFS(從vertex v 開始)，而 u 在這棵樹的第 L level 上 )
 ```cpp
@@ -171,7 +171,7 @@ int short_path(adjList *graph, int v, int u)                                    
     return distance[u];
 }
 ```
-##測試此圖形是不是樹
+## 測試此圖形是不是樹
 - 如果是樹的話，則 number of vertex 會等於 edge+1
 ```cpp
 bool isTree(adjList *graph) //vertex=edge+1
@@ -179,7 +179,7 @@ bool isTree(adjList *graph) //vertex=edge+1
     return number_of_vertex == (edge + 1);              // edge has been calculated when we transfer adj matrix into adj list 
 }
 ```
-##計算在 Tree constructed by BFS 的 level L 上有幾個node
+## 計算在 Tree constructed by BFS 的 level L 上有幾個node
 - 由副程式 `bfs` 為基礎修改而成
 - 基本上和副程式`short_path`一樣
 - 將各個 node 是在哪個 level 存在一個陣列中，最後去記算 level L 上有幾個 node
@@ -237,7 +237,7 @@ int level_number_of_node(adjList *graph, int L)
     return node;
 }
 ```
-##計算有幾個 Connected Components
+## 計算有幾個 Connected Components
 - 由副程式 `bfs` 為基礎修改而成
 - 走幾次 BFS 能把圖上所有的 vertex 走過一輪，便是有幾個 Connected Components
 ```cpp
