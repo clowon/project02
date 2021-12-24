@@ -54,7 +54,7 @@ while (test >> input) 			                                        //get row and c
 ## adj matrix 轉換成 adj list
 - 讀取矩陣裡的值，1 是相連 ，0 是為相連
 - 若是自己走到自己則不insert到adj list中
-```
+```cpp
 for (int i = 0; i < row; i++)                                                   //adj matrix ->adj list
     {
         for (int j = 0; j < col; j++)
@@ -76,7 +76,7 @@ for (int i = 0; i < row; i++)                                                   
 - 尋找兩點最短距離、建構一顆樹 by BFS 並給出第幾level有幾個點、有幾個 connected components，都是以此副程式為基礎去完成的
 - Tree constructed by BFS 每個 level 有幾個點等於上個 level 推入幾個點進 quene 
 - 我們用`pre_push_in_times`、`now_push_in_times`來記錄上次推入幾個點進 quene ，和這次推入幾個點進 quene
-```
+```cpp
 void bfs(int vertex, adjList *graph)
 {
     bool *visit = new bool[number_of_vertex];                                   //an array to know whether the vertix is visited before or not
@@ -116,7 +116,7 @@ void bfs(int vertex, adjList *graph)
 ##尋找兩點最短路徑長度
 - 由副程式 'bfs' 為基礎修改而成
 - 因為這次的圖都是 Undirected Graph 和 每條邊上的權重都是1，所以兩點 v ,u 最短路徑長度等於 L-1 (tree constructed by BFS(從vertex v 開始)，而 u 在這棵樹的第 L level 上 )
-```
+```cpp
 int short_path(adjList *graph, int v, int u)                                      //begining v, distanation u short bath
 {
     if(u >= number_of_vertex || u<0 || v>=number_of_vertex || v<0)                //if the vertex is out of the graph we return 9999
