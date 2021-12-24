@@ -1,5 +1,5 @@
 <div align="center"><h1>資料結構 Project II</h1></div>
-<div align="center"><h2>Data Type Graph Contraol</h2></div>
+<div align="center"><h2>Data Type Graph Control</h2></div>
 <div align="center"><h4>組別：J、組員：賴瑄融 B10902114、詹鈞皓 B10902108</h4></div>
 
 本程式使用到的函式庫為`C++`內建的輸入輸出流函式庫及計時器函式庫，編譯器必須版本為`C++14`以上。不支援DevC++。
