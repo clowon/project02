@@ -79,10 +79,10 @@ for (int i = 0; i < row; i++)                                                   
 ```
 void bfs(int vertex, adjList *graph)
 {
-    bool *visit = new bool[number_of_vertex];                                                   //an array to know whether the vertix is visited before or not
-    queue_round<int> quene;                                                                     //we need a quene to complete this task
+    bool *visit = new bool[number_of_vertex];                                   //an array to know whether the vertix is visited before or not
+    queue_round<int> quene;                                                     //we need a quene to complete this task
     adjList::node *temp;                        
-    int now_push_in_times = 0, pre_push_in_times = 0;                                           //counstrut the tree
+    int now_push_in_times = 0, pre_push_in_times = 0;                           //counstrut the tree
     for (int i = 0; i < number_of_vertex; i++)
         visit[i] = false;
     cout << vertex << "->";
@@ -101,7 +101,7 @@ void bfs(int vertex, adjList *graph)
                 {
                     cout << temp->data << "->";
                     quene.push(temp->data);
-                    now_push_in_times++;                                                        //count how many times we push into the qquene in this level 
+                    now_push_in_times++;                                        //count how many times we push into the quene in this level 
                     visit[temp->data] = true;                   
                 }
             }
@@ -114,9 +114,61 @@ void bfs(int vertex, adjList *graph)
 }
 ```
 ##尋找兩點最短路徑長度
-- 由副程式 'bfs' 修改而成
-- 因為這次的圖都是 Undirected Graph 和 每條邊上的權重都是1，所以兩點 u ,v 最短路徑長度等於 L-1 (tree constructed by BFS(從vertex u 開始)，而 v 在這棵樹的第 L level 上 )
-
+- 由副程式 'bfs' 為基礎修改而成
+- 因為這次的圖都是 Undirected Graph 和 每條邊上的權重都是1，所以兩點 v ,u 最短路徑長度等於 L-1 (tree constructed by BFS(從vertex v 開始)，而 u 在這棵樹的第 L level 上 )
+```
+int short_path(adjList *graph, int v, int u)                                      //begining v, distanation u short bath
+{
+    if(u >= number_of_vertex || u<0 || v>=number_of_vertex || v<0)                //if the vertex is out of the graph we return 9999
+    {
+        return 9999;
+    }
+    bool *sure = new bool[number_of_vertex];                                      //flag that identify if the vertix's shortest lengh has been figured out or not
+    int *distance = new int[number_of_vertex];                                    //the distance from vertex v
+    int now_push_in_times = 0, pre_push_in_times = 0;
+    adjList::node *temp;
+    int temp_vertex = 0, pre_vertex = v, now_vertex = v, dis = 0;
+    queue_round<int> quene;
+    for (int i = 0; i < number_of_vertex; i++)                                    //initial the array
+    {
+        distance[i] = 9999;
+        sure[i] = false;
+    }
+    distance[v] = 0;
+    sure[v] = true;
+    quene.push(v);
+    now_push_in_times = 0;
+    pre_push_in_times = 1;
+    while (!quene.isEmpty())
+    {
+        dis++;
+        for (int i = 0; i < pre_push_in_times; i++)
+        {
+            temp_vertex = quene.pop();
+            for (temp = graph[temp_vertex].getHead(); temp; temp = temp->link)
+            {
+                if (!sure[temp->data])
+                {
+                    quene.push(temp->data);
+                    now_push_in_times++;
+                    if (dis + 1 < distance[temp->data])
+                        distance[temp->data] = dis;
+                    sure[temp->data] = true;
+                }
+                if (sure[u])                                                     //if the distance we what to know has been figured out then return our answer
+                    break;
+            }
+            if (sure[u])
+                break;
+        }
+        if (sure[u])
+            break;
+        pre_push_in_times = now_push_in_times;
+        now_push_in_times = 0;
+    }
+    return distance[u];
+}
+```
 ## 演算法時間複雜度big-O
 - 矩陣當中的非零項最多只會被存入一次到容器中，而佇列（或堆疊）的`pop`與`push`所花費的時間固定，因此每個非零項所需的處裡時間為`O(1)`，時間複雜度與矩陣中非零項總數成正比關係，因此可以得出總時間複雜度為`O(n)`，n為非零項總數。
 - 若矩陣邊長為m，則時間與邊長關係為`O(m^2)`。
