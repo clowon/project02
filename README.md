@@ -14,19 +14,19 @@
 - 呼叫`make_2d_array(row,col)` 動態產生出一個二維矩陣。
 - 先將文件疊代過一輪取得矩陣的長寬，忽略行尾前空格。獲得輸入的長寬後分配記憶體空間，回到文件起始位置，將各項資料放入矩陣。程式片段如下（省略excaption）：
 ```cpp
-while (test >> input) 										//get row and column
+while (test >> input) 			                                        //get row and column
         {
-            if (test.peek() == ' ')									// ignore the space before newline
+            if (test.peek() == ' ')						// ignore the space before newline
                 test.get();
             if (test.peek() == '\n' || test.peek() == '\r')			// for Win32, the end of line will be "\r\n",
-                row++;									       		// but for linux or macOS, that will be "\n"
+                row++;						                // but for linux or macOS, that will be "\n"
         }
-        col /= row;													// total / rows = cols; obviously
-        matrix = make_2d_array(row, col); 							//create 2D array
-        test.clear();                     							//reset the file-postion pointer(seek get)
-        test.seekg(0, test.beg);          							//reset the file-postion pointer(seek get)
+        col /= row;								// total / rows = cols; obviously
+        matrix = make_2d_array(row, col); 					//create 2D array
+        test.clear();                     					//reset the file-postion pointer(seek get)
+        test.seekg(0, test.beg);          					//reset the file-postion pointer(seek get)
         input = 0;
-        while (test >> input) 										//read the data
+        while (test >> input) 							//read the data
         {
             if (input) 
                 matrix[i][j] = input;
