@@ -54,9 +54,22 @@ while (test >> input) 			                                        //get row and c
 ## adj matrix 轉換成 adj list
 - 讀取矩陣裡的值，1 是相連 ，0 是為相連
 - 若是自己走到自己則不insert到adj list中
-<div align="center">
-  <a href="https://imgur.com/7b4sMLO"><img src="https://i.imgur.com/7b4sMLO.gif" title="source: imgur.com" /></a>
-</div>
+```
+for (int i = 0; i < row; i++)                                                   //adj matrix ->adj list
+    {
+        for (int j = 0; j < col; j++)
+        {
+            if (matrix[i][j])                                                   //insert if matrix[i][j] != 0
+            {
+                if (i != j)                                                     //dont insert if itselt go to itself
+                {
+                    graph[i].insert_back(j);                                    //insert into the list
+                    edge++;                                                     //count the edge of the graph
+                }
+            }
+        }
+    }
+```
 
 - 填充使用到的演算法為Flood Fill －洪水演算法，將起始位相鄰白塊位置倒入queue（或 stack）中，將queue存的第一個位置設為當前的值後pop，之後將下一個位置的相鄰白塊存入queue，重複直到queue中沒有任何東西為止。
 - `queue<T>` 為自己寫的佇列class，建構子參數為初始容量，預留空間能確保程式不會花太多時間在擴充容量（`reallocate`）。
