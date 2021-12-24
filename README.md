@@ -7,6 +7,8 @@
 - `<iostream>` 標準輸入輸出流： `cin`, `cout` 等 stream。
 - `<fstream>` 標準文件輸入輸出流： 用於文件的輸入輸出，可以重載運算子，在輸出矩陣資料時很方便。
 - `<iomanip>` 格式化輸出： 用於標準輸出流的排版，`setw`, `hex` 等
+- `quene.hpp` 自己寫的quene: BFS 需要
+
 
 ## 輸入文件格式說明
 - 副檔名為`.txt`純文字格式，col 與 col 之間以空格分隔，空格數不限；換行字元支援`\r\n`(Windows)及`\n`(Linux & macOS)，接受換行前空格。
@@ -114,7 +116,7 @@ void bfs(int vertex, adjList *graph)
 }
 ```
 ##尋找兩點最短路徑長度
-- 由副程式 'bfs' 為基礎修改而成
+- 由副程式 `bfs` 為基礎修改而成
 - 因為這次的圖都是 Undirected Graph 和 每條邊上的權重都是1，所以兩點 v ,u 最短路徑長度等於 L-1 (tree constructed by BFS(從vertex v 開始)，而 u 在這棵樹的第 L level 上 )
 ```cpp
 int short_path(adjList *graph, int v, int u)                                      //begining v, distanation u short bath
@@ -169,6 +171,126 @@ int short_path(adjList *graph, int v, int u)                                    
     return distance[u];
 }
 ```
+##測試此圖形是不是樹
+- 如果是樹的話，則 number of vertex 會等於 edge+1
+```cpp
+bool isTree(adjList *graph) //vertex=edge+1
+{
+    return number_of_vertex == (edge + 1);              // edge has been calculated when we transfer adj matrix into adj list 
+}
+```
+##計算在 Tree constructed by BFS 的 level L 上有幾個node
+- 由副程式 `bfs` 為基礎修改而成
+- 基本上和副程式`short_path`一樣
+- 將各個 node 是在哪個 level 存在一個陣列中，最後去記算 level L 上有幾個 node
+```cpp
+int level_number_of_node(adjList *graph, int L)
+{
+    bool *visit = new bool[number_of_vertex];                                   
+    int *level = new int[number_of_vertex];
+    int now_push_in_times = 0, pre_push_in_times = 0;
+    adjList::node *temp;
+    int temp_vertex = 0, pre_vertex = 0, now_vertex = 0, dis = 1, node = 0;
+    queue_round<int> quene;
+    for (int i = 1; i < number_of_vertex; i++) //initial
+    {
+        level[i] = 9999;
+        visit[i] = false;
+    }
+    level[0] = 1;
+    visit[0] = true;
+    quene.push(0);
+    now_push_in_times = 0;
+    pre_push_in_times = 1;
+    while (!quene.isEmpty())
+    {
+        dis++;
+        for (int i = 0; i < pre_push_in_times; i++)
+        {
+            temp_vertex = quene.pop();
+            for (temp = graph[temp_vertex].getHead(); temp; temp = temp->link)
+            {
+                if (!visit[temp->data])
+                {
+                    quene.push(temp->data);
+                    now_push_in_times++;
+                    if (dis + 1 < level[temp->data])
+                        level[temp->data] = dis;
+                    visit[temp->data] = true;
+                }
+            }
+        }
+        pre_push_in_times = now_push_in_times;
+        now_push_in_times = 0;
+    }
+    for (int i = 0; i < number_of_vertex; i++)                             //count how many node at given level L in tree construced by BFS(starting from vertex 0)
+    {
+        if (level[i] == L)
+        {
+            node++;
+        }
+        if (level[i] == 9999)
+        {
+            level[i] = -1;
+        }
+    }
+    return node;
+}
+```
+##計算有幾個 Connected Components
+- 由副程式 `bfs` 為基礎修改而成
+- 走幾次 BFS 能把圖上所有的 vertex 走過一輪，便是有幾個 Connected Components
+```cpp
+int count_connected_compoment(adjList *graph)
+{
+    bool *visit = new bool[number_of_vertex];
+    bool ok = false;
+    int temp_vertex, number_of_connected_compoment = 0;
+    adjList::node *temp;
+    queue_round<int> quene;
+    for (int i = 1; i < number_of_vertex; i++)
+        visit[i] = false;
+    visit[0] = true;
+    quene.push(0);
+    while (!ok)                                                                         //check whether all vertexs are visited before or not
+    {
+        while (!quene.isEmpty())                                                        //BFS
+        {
+            temp_vertex = quene.pop();
+            if (graph[temp_vertex].getHead())
+            {
+                temp = graph[temp_vertex].getHead();
+                do
+                {
+                    if (!visit[temp->data])
+                    {
+                        quene.push(temp->data);
+                        visit[temp->data] = true;
+                    }
+                    temp = temp->link;
+                } while (temp);
+            }
+            else
+            {
+                visit[temp_vertex] = true;
+            }
+        }
+        ok = true;
+        for (int i = 0; i < number_of_vertex; i++)                                     //if there is still have vertex didnt be visited before then run one more time BFS
+        {
+            if (!visit[i])
+            {
+                quene.push(i);
+                ok = false;
+                break;
+            }
+        }
+        number_of_connected_compoment++;
+    }
+    return number_of_connected_compoment;
+}
+```
+
 ## 演算法時間複雜度big-O
 - 矩陣當中的非零項最多只會被存入一次到容器中，而佇列（或堆疊）的`pop`與`push`所花費的時間固定，因此每個非零項所需的處裡時間為`O(1)`，時間複雜度與矩陣中非零項總數成正比關係，因此可以得出總時間複雜度為`O(n)`，n為非零項總數。
 - 若矩陣邊長為m，則時間與邊長關係為`O(m^2)`。
