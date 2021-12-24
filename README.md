@@ -10,38 +10,40 @@
 
 ## 輸入文件格式說明
 - 副檔名為`.txt`純文字格式，col 與 col 之間以空格分隔，空格數不限；換行字元支援`\r\n`(Windows)及`\n`(Linux & macOS)，接受換行前空格。
-- 文件輸入方式： `countBlocks.exe ./nandemo.txt` 或 開啟執行檔後手動輸入文件路徑。
-- `matrix2d<T>` 是動態矩陣class，`resize`後會分配一個足夠大小的記憶體區塊。
+- 文件輸入方式： 開啟執行檔後手動輸入文件路徑。
+- 呼叫`make_2d_array(row,col)` 動態產生出一個二維矩陣。
 - 先將文件疊代過一輪取得矩陣的長寬，忽略行尾前空格。獲得輸入的長寬後分配記憶體空間，回到文件起始位置，將各項資料放入矩陣。程式片段如下（省略excaption）：
 ```cpp
-matrix2d<int> mat;                                   // dynamic matrix struct, it's currently empty
-int tmp;                                             // a buffer between input stream and dynamic matrix
-size_t col = 0, row = 0, count = 0;
-while (file >> tmp) {                                // dump the ints repeatedly until there are no ints in the file.
-    ++col;                                           // count columns
-    if (file.peek() == ' ') file.get();              // ignore the space before newline
-    if (file.peek() == '\r' || file.peek() == '\n')  // for Win32, the end of line will be "\r\n",
-        ++row;                                       // but for linux or macOS, that will be "\n"
-}
-col /= row;                                          // total / rows = cols; obviously
-file.clear();                                        // clear all states, it's necessary and idk why.
-file.seekg(0, file.beg);                             // back to start-pos
-mat.resize(row, col);                                // generate a dynamic matrix
-while (file >> tmp && !file.eof()) {                 // dump data into matrix
-    mat.array()[count] = (tmp != 0) ? 65535 : 0;     // if non-zero, we set a huge number to it, 
-    ++count;                                         // 2^16 is enough for general situation
-}
+while (test >> input) 										//get row and column
+        {
+            if (test.peek() == ' ')									// ignore the space before newline
+                test.get();
+            if (test.peek() == '\n' || test.peek() == '\r')			// for Win32, the end of line will be "\r\n",
+                row++;									       		// but for linux or macOS, that will be "\n"
+        }
+        col /= row;													// total / rows = cols; obviously
+        matrix = make_2d_array(row, col); 							//create 2D array
+        test.clear();                     							//reset the file-postion pointer(seek get)
+        test.seekg(0, test.beg);          							//reset the file-postion pointer(seek get)
+        input = 0;
+        while (test >> input) 										//read the data
+        {
+            if (input) 
+                matrix[i][j] = input;
+            else
+                matrix[i][j] = 0;
+            j++;
+            if (j == col)
+            {
+                i++;
+                j = 0;
+            }
+        }
 ```
-- `.txt` 格式參考，0為黑塊，非零項為白塊：
+- `.txt` 格式參考，0為未相連，1為相連：
 ```
 0 0 0 0 0 0 0 0
 0 1 1 0 0 1 1 0
-0 1 1 0 0 1 1 0
-0 0 0 1 1 0 0 0
-0 0 1 1 1 1 0 0
-0 0 1 1 1 1 0 0
-0 0 1 0 0 1 0 0
-0 0 0 0 0 0 0 0
 ```
 ## 計算連接的白色區塊數量
 - 計算連接區塊需要確認從起始位置算起需要"填充"多少次，從1開始填值，不同區依序遞增，被填充過後的區塊會忽略。
