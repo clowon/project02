@@ -70,42 +70,52 @@ for (int i = 0; i < row; i++)                                                   
         }
     }
 ```
-
-- 填充使用到的演算法為Flood Fill －洪水演算法，將起始位相鄰白塊位置倒入queue（或 stack）中，將queue存的第一個位置設為當前的值後pop，之後將下一個位置的相鄰白塊存入queue，重複直到queue中沒有任何東西為止。
-- `queue<T>` 為自己寫的佇列class，建構子參數為初始容量，預留空間能確保程式不會花太多時間在擴充容量（`reallocate`）。
-- `grid` 為記錄座標的struct type。`matrix2d<T>::width`是`uint16_t`型別。
-- 以下為部分演算法片段，最外層的for迴圈會將整個矩陣疊代一次：
-```cpp
-queue<grid> sp(256);                                            // queue for grid type
-// init with given capacity can activate faster
-size_t count = 0, num = 0;                                      // counts how many grids connected
-grid tmp;                                                       // temporary of queue pop value
-for (matrix2d<int>::width row = 0; row < mat.maxrow(); row++) {
-    for (matrix2d<int>::width col = 0; col < mat.maxcol(); col++) {
-        if (mat[row][col] == replace_val) {                     // first of blocks
-            count++;
-            sp.push(grid {col, row});                           // x = col, y = row
-            while(!sp.empty()) {
-                num++;
-                tmp = sp.pop();                                 // compute the first element in container
-                if (mat[tmp.y][tmp.x] == replace_val) {
-                    mat[tmp.y][tmp.x] = count;
-                    if (tmp.y > 0 && mat[tmp.y - 1][tmp.x] == replace_val)                  // up
-            	        sp.push(make_grid(tmp.x, tmp.y - 1));                               // for next stage
-            	    if (tmp.x > 0 && mat[tmp.y][tmp.x - 1] == replace_val)                  // left
-                        sp.push(make_grid(tmp.x - 1, tmp.y));                               // same as above
-            	    if (tmp.y < mat.maxrow() - 1 && mat[tmp.y + 1][tmp.x] == replace_val)   // down
-            	        sp.push(make_grid(tmp.x, tmp.y + 1));                               // same as above
-                    if (tmp.x < mat.maxcol() - 1 && mat[tmp.y][tmp.x + 1] == replace_val)   // right
-                        sp.push(make_grid(tmp.x + 1, tmp.y));                               // same as above
-            	}
+##Constructed a Tree by Breadth-First Search(BFS)
+-
+-此副程式是我們的程式中許多副程式的核心邏輯
+-尋找兩點最短距離、建構一顆樹 by BFS 並給出第幾level有幾個點、有幾個 connected components，都是以此副程式為基礎去完成的
+-Tree constructed by BFS 每個 level 有幾個點等於上個 level 推入幾個點進 quene 
+-我們用`pre_push_in_times`、`now_push_in_times`來記錄上次推入幾個點進 quene ，和這次推入幾個點進 quene
+```
+void bfs(int vertex, adjList *graph)
+{
+    bool *visit = new bool[number_of_vertex];                                                   //an array to know whether the vertix is visited before or not
+    queue_round<int> quene;                                                                     //we need a quene to complete this task
+    adjList::node *temp;                        
+    int now_push_in_times = 0, pre_push_in_times = 0;                                           //counstrut the tree
+    for (int i = 0; i < number_of_vertex; i++)
+        visit[i] = false;
+    cout << vertex << "->";
+    visit[vertex] = true;
+    quene.push(vertex);
+    now_push_in_times = 0;
+    pre_push_in_times = 1;
+    while (!quene.isEmpty())
+    {
+        for (int i = 0; i < pre_push_in_times; i++)
+        {
+            vertex = quene.pop();
+            for (temp = graph[vertex].getHead(); temp; temp = temp->link)               
+            {
+                if (!visit[temp->data])
+                {
+                    cout << temp->data << "->";
+                    quene.push(temp->data);
+                    now_push_in_times++;                                                        //count how many times we push into the qquene in this level 
+                    visit[temp->data] = true;                   
+                }
             }
         }
+        cout << endl;
+        pre_push_in_times = now_push_in_times;                 
+        now_push_in_times = 0;
     }
+    cout << "end" << endl;
 }
 ```
-- 佇列中儲存的位置必定為非零項。
-- 變數`num`用來計算演算法共執行了幾次佇列操作； `make_grid`用於避免gnu編譯器的整數縮小轉換錯誤。
+##尋找兩點最短路徑長度
+- 由副程式 'bfs' 修改而成
+- 因為這次的圖都是 Undirected Graph 和 每條邊上的權重都是1，所以兩點 u ,v 最短路徑長度等於 L-1 (tree constructed by BFS(從vertex u 開始)，而 v 在這棵樹的第 L level 上 )
 
 ## 演算法時間複雜度big-O
 - 矩陣當中的非零項最多只會被存入一次到容器中，而佇列（或堆疊）的`pop`與`push`所花費的時間固定，因此每個非零項所需的處裡時間為`O(1)`，時間複雜度與矩陣中非零項總數成正比關係，因此可以得出總時間複雜度為`O(n)`，n為非零項總數。
