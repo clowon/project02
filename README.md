@@ -51,9 +51,9 @@ while (test >> input) 			                                        //get row and c
   0   0   0   1   0   1   0   1
   0   1   0   0   0   1   1   0
 ```
-## 計算連接的白色區塊數量
-- 計算連接區塊需要確認從起始位置算起需要"填充"多少次，從1開始填值，不同區依序遞增，被填充過後的區塊會忽略。
-- 下圖為gif演示。參見`res/filldemo.gif`
+## adj matrix 轉換成 adj list
+- 讀取矩陣裡的值，1 是相連 ，0 是為相連
+- 若是自己走到自己則不insert到adj list中
 <div align="center">
   <a href="https://imgur.com/7b4sMLO"><img src="https://i.imgur.com/7b4sMLO.gif" title="source: imgur.com" /></a>
 </div>
