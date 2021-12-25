@@ -377,3 +377,15 @@ class queue : mem_allocator<T>
 - `bmpinfo.cpp`, `bmpreader.hpp` 將指定的`.bmp`圖檔輸出為`.txt`格式矩陣。會額外生成`.palette`供gif產生器使用。
 - `algo_visual.cpp`, `gif_editor.h` 將`.txt`與`.palette`合併成gif動畫格式，用於生成可視化演算法。注意：若輸入文件非零項數過大，輸出gif的幀數可能會破萬。
 - `res/` 資料夾中為測試時使用到的`.bmp`, `.txt`, `.palette` 及 `.gif`輸出文件。
+
+
+
+$$
+\left\langle
+  q
+\middle\|
+  \frac{\frac{x}{y}}{\frac{u}{v}}
+\middle|
+   p
+\right\rangle
+$$
