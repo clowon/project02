@@ -1,6 +1,6 @@
 
 $$
-  /sum 
+  \sum 
 $$
 
 <div align="center"><h1>資料結構 Project II</h1></div>
