@@ -57,6 +57,7 @@ while (test >> input) 			                                        //get row and c
 ## adj matrix 轉換成 adj list
 - 讀取矩陣裡的值，1 是相連 ，0 是為相連
 - 若是自己走到自己則不insert到adj list中
+- 時間複雜度 *big-O* 等於 *O(v^2)* (v = number of vertices)
 ```cpp
 for (int i = 0; i < row; i++)                                                   //adj matrix ->adj list
     {
