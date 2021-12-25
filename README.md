@@ -228,7 +228,7 @@ int level_number_of_node(adjList *graph, int L)
         pre_push_in_times = now_push_in_times;
         now_push_in_times = 0;
     }
-    for (int i = 0; i < number_of_vertex; i++)                             //count how many node at given level L in tree construced by BFS(starting from vertex 0)
+    for (int i = 0; i < number_of_vertex; i++)                 //count how many node at given level L in tree construced by BFS(starting from vertex 0)
     {
         if (level[i] == L)
         {
@@ -258,9 +258,9 @@ int count_connected_compoment(adjList *graph)
         visit[i] = false;
     visit[0] = true;
     quene.push(0);
-    while (!ok)                                                                         //check whether all vertexs are visited before or not
+    while (!ok)                                                               //check whether all vertexs are visited before or not
     {
-        while (!quene.isEmpty())                                                        //BFS
+        while (!quene.isEmpty())                                              //BFS
         {
             temp_vertex = quene.pop();
             if (graph[temp_vertex].getHead())
@@ -282,7 +282,7 @@ int count_connected_compoment(adjList *graph)
             }
         }
         ok = true;
-        for (int i = 0; i < number_of_vertex; i++)                                     //if there is still have vertex didnt be visited before then run one more time BFS
+        for (int i = 0; i < number_of_vertex; i++)                         //if there is still have vertex didnt be visited before then run one more time BFS
         {
             if (!visit[i])
             {
