@@ -354,40 +354,18 @@ while (!end)
 ```
 
 ## 容器結構 Class
-- 此程式所用到的容器類歸類在`mycontainer.hpp`中，包含`dynamic matrix`, `stack`, `queue`。
-- 所有容器的底層形式均為一維陣列，並共用`mem_allocator`。
-- `mem_allocator class` 共用記憶體分配，包含`alloc`, `realloc`, `dealloc`功能。
-    - `allocate()` 回傳一個分配的記憶體空間。
-    - `reallocate()` 分配新的記憶體空間，舊資料會複製過去。
-    - `deallocate()` 釋放已分配的記憶體空間。
-    - 若是執行中出現錯誤會拋出異常。
-```cpp
-template<class T>
-class mem_allocator
-```
-- `matrix2d class` 動態二維矩陣。
-    - `array()` 以一維陣列方式回傳data。
-    - `resize()` 重新設定matrix的長寬，會重新分配空間。
-    - `operator[]()` 回傳對應rol位置的指標，假裝是二維陣列。
-    - `operator<<()` 自定義`std::ostream`輸出重載。
-```cpp
-template<class T>
-class matrix2d : mem_allocator<T> 
-```
-- `stack class` 未使用
+- 此程式所用到的容器類歸類在`queue.hpp`中，包含 `queue_round`。
 - `queue class` 簡易佇列結構。
     - 在記憶體中是以環狀記憶體的方式實作，分為`head`與`tail`兩個寫入讀出指標。
 ```cpp
 template<class T>
-class queue : mem_allocator<T> 
+class queue_round
 ```
 
 ## 附加文件
-- `chromat.cpp` 與 `mycontainer.hpp` 為使用到template容器的版本，會計算各部分花費的時間。
-- `project1.cpp` 為不帶template容器的版本，功能基本相同。
-- `res/input/` 資料夾中是所有使用到的輸入測試文字文件。從`10x10`到`960x960`大小矩陣輸入。部分是用畫出來的圖檔轉換而來。
-- `res/input/ratio/` 資料夾中為同矩陣等比放大的測試檔，前綴為倍數，分為`aa`和`bb41`兩種矩陣。
-- `execute/` 資料夾中為編譯後的執行檔，不同環境下可能會無法執行。
+- `queue.hpp` 為使用到template容器的版本，會計算各部分花費的時間。
+- `project2.cpp` 主程式cpp檔
+- `project2.exe` 主程式exe檔
 - `README.md` 此文件的markdown版本。
 
 ## 附加工具
