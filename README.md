@@ -1,8 +1,4 @@
 
-$$
-  \sum 
-$$
-
 <div align="center"><h1>資料結構 Project II</h1></div>
 <div align="center"><h2>Data Type Graph Control</h2></div>
 <div align="center"><h4>組別：J、組員：賴瑄融 B10902114、詹鈞皓 B10902108</h4></div>
@@ -82,7 +78,7 @@ for (int i = 0; i < row; i++)                                                   
 - 尋找兩點最短距離、建構一顆樹 by BFS 並給出第幾level有幾個點、有幾個 connected components，都是以此副程式為基礎去完成的
 - Tree constructed by BFS 每個 level 有幾個點等於上個 level 推入幾個點進 quene 
 - 我們用`pre_push_in_times`、`now_push_in_times`來記錄上次推入幾個點進 quene ，和這次推入幾個點進 quene
-- 時間複雜度 *big-O* 等於 *O(v+e)* (v = number of vertexs , e = number of edges)
+- 時間複雜度 *big-O* 等於 *O(v+e)* (v = number of vertices , e = number of edges)
 ```cpp
 void bfs(int vertex, adjList *graph)
 {
@@ -123,7 +119,7 @@ void bfs(int vertex, adjList *graph)
 ## 尋找兩點最短路徑長度
 - 由副程式 `bfs` 為基礎修改而成
 - 因為這次的圖都是 Undirected Graph 和 每條邊上的權重都是1，所以兩點 v ,u 最短路徑長度等於 L-1 (tree constructed by BFS(從vertex v 開始)，而 u 在這棵樹的第 L level 上 )
-- 時間複雜度 *big-O* 等於 *O(v+e)* (v = number of vertexs , e = number of edges)，最壞的情況便是 u 在樹最大 level 上 => O(v+e) ， 最好狀況便是 u 在 level 2上 => O(1)
+- 時間複雜度 *big-O* 等於 *O(v+e)* (v = number of vertices , e = number of edges)，最壞的情況便是 u 在樹最大 level 上 => O(v+e) ， 最好狀況便是 u 在 level 2上 => O(1)
 ```cpp
 int short_path(adjList *graph, int v, int u)                                      //begining v, distanation u short bath
 {
@@ -190,7 +186,7 @@ bool isTree(adjList *graph) //vertex=edge+1
 - 由副程式 `bfs` 為基礎修改而成
 - 基本上和副程式`short_path`一樣
 - 將各個 node 是在哪個 level 存在一個陣列中，最後去記算 level L 上有幾個 node
-- 時間複雜度 *big-O* 等於 *O(v+e)* (v = number of vertexs , e = number of edges)
+- 時間複雜度 *big-O* 等於 *O(v+e)* (v = number of vertices , e = number of edges)
 ```cpp
 int level_number_of_node(adjList *graph, int L)
 {
@@ -248,9 +244,7 @@ int level_number_of_node(adjList *graph, int L)
 ## 計算有幾個 Connected Components
 - 由副程式 `bfs` 為基礎修改而成
 - 走幾次 BFS 能把圖上所有的 vertex 走過一輪，便是有幾個 Connected Components
-$$ 
-\sum 
-$$
+- 時間複雜度 big-O 等於各個Connected Components 的 BFS 總和
 ```cpp
 int count_connected_compoment(adjList *graph)
 {
@@ -301,43 +295,62 @@ int count_connected_compoment(adjList *graph)
     return number_of_connected_compoment;
 }
 ```
-
-## 演算法時間複雜度big-O
-- 矩陣當中的非零項最多只會被存入一次到容器中，而佇列（或堆疊）的`pop`與`push`所花費的時間固定，因此每個非零項所需的處裡時間為`O(1)`，時間複雜度與矩陣中非零項總數成正比關係，因此可以得出總時間複雜度為`O(n)`，n為非零項總數。
-- 若矩陣邊長為m，則時間與邊長關係為`O(m^2)`。
-<div align="center">
-    <a href="https://imgur.com/yc8fDka"><img src="https://i.imgur.com/yc8fDka.jpg" title="source: imgur.com" /></a>
-</div>
-- 依輸出圖表所示，計算時間與非零項總數成正比關係。
     
-## 演算法輸出結果
-- 這部分使用到了C++的運算子重載部分，能將矩陣以`cout`方式列印，或是輸出到文件中。
-- 輸出使用到`setw()`讓輸出矩陣能夠對齊。
+## 程式控制模式
+- 利用 switch-case 來提供使用者想要的功能
 ```cpp
-// print this matrix, standard ostream << fuction override
-std::ostream& operator<<(std::ostream& os, const matrix2d& mat) {
-    size_t r = 0, c = 0, n = 0;
-    while (r != mat.row) {
-        os << std::setw(3) << mat.data[n] << " ";
-        c++; n++;
-        if (c == mat.col) {
-            r++; c = 0;
-            os << "\n";
+while (!end)
+    {
+        cout << endl;
+        cout << "print out all vertices for each vertex => input 1" << endl
+             << "find shortest path in gragh from v to w => input 2" << endl
+             << "test whether the graph is a tree of not => input 3" << endl
+             << "the number of nodes at level L in a tree constructed by BFS of the gragh(start from 0) => input 4" << endl
+             << "count the number of conneceted components in the grapg => input 5 " << endl
+             << "exit => input -1" << endl
+             << "input = ";
+        cin >> input;
+        cout<<endl;
+        switch (input)
+        {
+        cas 1:
+            for (int i = 0; i < number_of_vertex; i++)                                  //print out adj list
+            {
+                cout << i << " => ";
+                graph[i].print_data();
+            }
+            break;
+        case 2:
+            /* code */
+            cout << "input format v w " << endl;
+            cin >> v >> w;
+            cout << "the shortest path from " << v << " to " << w << " are " << short_path(graph, v, w) << " unit lenghs" << endl;
+            break;
+        case 3:
+            /* code */
+            if (isTree(graph))
+                cout << "the graph is a tree" << endl;
+            else
+                cout << "the graph is not a tree" << endl;
+            break;
+        case 4:
+            /* code */
+            cout << "L= ";
+            cin >> L;
+            cout << "level = " << L << " have " << level_number_of_node(graph, L) << " nodes" << endl;
+            break;
+        case 5:
+            /* code */
+            cout << "have " << count_connected_compoment(graph) << " connected compoment" << endl;
+            break;
+        case -1:
+            /* code */
+            end = true;
+            break;
+        default:
+            break;
         }
     }
-    return os;
-}
-```
-- `logfile.txt` 輸出格式範例：
-```
-  0   0   0   0   0   0   0   0 
-  0   1   1   0   0   2   2   0 
-  0   1   1   0   0   2   2   0 
-  0   0   0   3   3   0   0   0 
-  0   0   3   3   3   3   0   0 
-  0   0   3   3   3   3   0   0 
-  0   0   3   0   0   3   0   0 
-  0   0   0   0   0   0   0   0 
 ```
 
 ## 容器結構 Class
