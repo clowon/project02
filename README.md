@@ -244,7 +244,7 @@ int level_number_of_node(adjList *graph, int L)
 - 由副程式 `bfs` 為基礎修改而成
 - 走幾次 BFS 能把圖上所有的 vertex 走過一輪，便是有幾個 Connected Components
 $$ 
-\sum_{i=1}^n \frac{1}{i^2} 
+\sum 
 $$
 ```cpp
 int count_connected_compoment(adjList *graph)
