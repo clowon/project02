@@ -1,3 +1,14 @@
+
+$$
+\left\langle
+  q
+\middle\|
+  \frac{\frac{x}{y}}{\frac{u}{v}}
+\middle|
+   p
+\right\rangle
+$$
+
 <div align="center"><h1>資料結構 Project II</h1></div>
 <div align="center"><h2>Data Type Graph Control</h2></div>
 <div align="center"><h4>組別：J、組員：賴瑄融 B10902114、詹鈞皓 B10902108</h4></div>
@@ -373,16 +384,3 @@ class queue : mem_allocator<T>
 - `README.md` 此文件的markdown版本。
 
 ## 附加工具
-
-
-
-
-$$
-\left\langle
-  q
-\middle\|
-  \frac{\frac{x}{y}}{\frac{u}{v}}
-\middle|
-   p
-\right\rangle
-$$
