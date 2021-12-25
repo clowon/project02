@@ -83,10 +83,10 @@ for (int i = 0; i < row; i++)                                      //adj matrix 
 ```cpp
 void bfs(int vertex, adjList *graph)
 {
-    bool *visit = new bool[number_of_vertex];                        //an array to know whether the vertix is visited before or not
-    queue_round<int> quene;                                          //we need a quene to complete this task
+    bool *visit = new bool[number_of_vertex];                //an array to know whether the vertix is visited before or not
+    queue_round<int> quene;                                  //we need a quene to complete this task
     adjList::node *temp;                        
-    int now_push_in_times = 0, pre_push_in_times = 0;                //counstrut the tree
+    int now_push_in_times = 0, pre_push_in_times = 0;        //counstrut the tree
     for (int i = 0; i < number_of_vertex; i++)
         visit[i] = false;
     cout << vertex << "->";
@@ -105,7 +105,7 @@ void bfs(int vertex, adjList *graph)
                 {
                     cout << temp->data << "->";
                     quene.push(temp->data);
-                    now_push_in_times++;                        //count how many times we push into the quene in this level 
+                    now_push_in_times++;                //count how many times we push into the quene in this level 
                     visit[temp->data] = true;                   
                 }
             }
@@ -122,19 +122,19 @@ void bfs(int vertex, adjList *graph)
 - 因為這次的圖都是 Undirected Graph 和 每條邊上的權重都是1，所以兩點 v ,u 最短路徑長度等於 L-1 (tree constructed by BFS(從vertex v 開始)，而 u 在這棵樹的第 L level 上 )
 - 時間複雜度 *big-O* 等於 *O(v+e)* (v = number of vertices , e = number of edges)，最壞的情況便是 u 在樹最大 level 上 => O(v+e) ， 最好狀況便是 u 在 level 2上 => O(1)
 ```cpp
-int short_path(adjList *graph, int v, int u)                        //begining v, distanation u short bath
+int short_path(adjList *graph, int v, int u)                       //begining v, distanation u short bath
 {
-    if(u >= number_of_vertex || u<0 || v>=number_of_vertex || v<0)  //if the vertex is out of the graph we return 9999
+    if(u >= number_of_vertex || u<0 || v>=number_of_vertex || v<0)//if the vertex is out of the graph we return 9999
     {
         return 9999;
     }
-    bool *sure = new bool[number_of_vertex];                       //flag that identify if the vertix's shortest lengh has been figured out or not
-    int *distance = new int[number_of_vertex];                     //the distance from vertex v
+    bool *sure = new bool[number_of_vertex];                 //flag that identify if the vertix's shortest lengh has been figured out or not
+    int *distance = new int[number_of_vertex];               //the distance from vertex v
     int now_push_in_times = 0, pre_push_in_times = 0;
     adjList::node *temp;
     int temp_vertex = 0, pre_vertex = v, now_vertex = v, dis = 0;
     queue_round<int> quene;
-    for (int i = 0; i < number_of_vertex; i++)                     //initial the array
+    for (int i = 0; i < number_of_vertex; i++)              //initial the array
     {
         distance[i] = 9999;
         sure[i] = false;
@@ -160,7 +160,7 @@ int short_path(adjList *graph, int v, int u)                        //begining v
                         distance[temp->data] = dis;
                     sure[temp->data] = true;
                 }
-                if (sure[u])                        //if the distance we what to know has been figured out then return our answer
+                if (sure[u])                  //if the distance we what to know has been figured out then return our answer
                     break;
             }
             if (sure[u])
@@ -228,7 +228,7 @@ int level_number_of_node(adjList *graph, int L)
         pre_push_in_times = now_push_in_times;
         now_push_in_times = 0;
     }
-    for (int i = 0; i < number_of_vertex; i++)    //count how many node at given level L in tree construced by BFS(starting from vertex 0)
+    for (int i = 0; i < number_of_vertex; i++)//count how many node at given level L in tree construced by BFS(starting from vertex 0)
     {
         if (level[i] == L)
         {
@@ -282,7 +282,7 @@ int count_connected_compoment(adjList *graph)
             }
         }
         ok = true;
-        for (int i = 0; i < number_of_vertex; i++)  //if there is still have vertex didnt be visited before then run one more time BFS
+        for (int i = 0; i < number_of_vertex; i++)//if there is still have vertex didnt be visited before then run one more time BFS
         {
             if (!visit[i])
             {
