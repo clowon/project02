@@ -78,6 +78,7 @@ for (int i = 0; i < row; i++)                                                   
 - 尋找兩點最短距離、建構一顆樹 by BFS 並給出第幾level有幾個點、有幾個 connected components，都是以此副程式為基礎去完成的
 - Tree constructed by BFS 每個 level 有幾個點等於上個 level 推入幾個點進 quene 
 - 我們用`pre_push_in_times`、`now_push_in_times`來記錄上次推入幾個點進 quene ，和這次推入幾個點進 quene
+- 時間複雜度 *big-O* 等於 *O(v+e)* (v = number of vertexs , e = number of edges)
 ```cpp
 void bfs(int vertex, adjList *graph)
 {
