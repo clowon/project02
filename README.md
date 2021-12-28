@@ -443,10 +443,11 @@ private:
 ```cpp
 adjList *graph = new adjList[number_of_vertex];
 ```
-* Item 1
-* Item 2
-  * Item 2a
-  * Item 2b
+* adjList class ，包含 print_data , get_Number_of_ndoe , insert_back , getHead
+  * print_data : 印出此 list 中的資料
+  * get_Number_of_ndoe : 回傳有幾筆資料在此 list 中
+  * insert_back : isert 資料在 list 的尾巴
+  * getHead : 回傳此 list 的起始指標
 
 ## 附加文件
 - `queue.hpp` 為使用到template容器的版本，會計算各部分花費的時間。
