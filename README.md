@@ -443,6 +443,10 @@ private:
 ```cpp
 adjList *graph = new adjList[number_of_vertex];
 ```
+* Item 1
+* Item 2
+  * Item 2a
+  * Item 2b
 
 ## 附加文件
 - `queue.hpp` 為使用到template容器的版本，會計算各部分花費的時間。
