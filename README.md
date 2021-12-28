@@ -364,10 +364,10 @@ template<class T>
 class queue_round
 ```
 - adjList class ，包含 print_data , get_Number_of_ndoe , insert_back , getHead
- - print_data : 印出此 list 中的資料
- - get_Number_of_ndoe : 回傳有幾筆資料在此 list 中
- - insert_back : isert 資料在 list 的尾巴
- - getHead : 回傳此 list 的起始指標
+ * print_data : 印出此 list 中的資料
+ * get_Number_of_ndoe : 回傳有幾筆資料在此 list 中
+ * insert_back : isert 資料在 list 的尾巴
+ * getHead : 回傳此 list 的起始指標
 ```cpp
 class adjList
 {
