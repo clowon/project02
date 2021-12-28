@@ -57,6 +57,7 @@ while (test >> input) 			                          //get row and column
 ## adj matrix 轉換成 adj list
 - 讀取矩陣裡的值，1 是相連 ，0 是為相連
 - 若是自己走到自己則不insert到adj list中
+- 在轉換過程時，也會將 edge 算出
 - 時間複雜度 *big-O* 等於 *O(v^2)* (v = number of vertices)
 ```cpp
 for (int i = 0; i < row; i++)                                      //adj matrix ->adj list
@@ -355,12 +356,92 @@ while (!end)
 ```
 
 ## 容器結構 Class
-- 此程式所用到的容器類歸類在`queue.hpp`中，包含 `queue_round`。
+- 此程式所用到的queue歸類在`queue.hpp`中，包含 `queue_round`。
 - `queue class` 簡易佇列結構。
     - 在記憶體中是以環狀記憶體的方式實作，分為`head`與`tail`兩個寫入讀出指標。
 ```cpp
 template<class T>
 class queue_round
+```
+- adjList class ，包含 print_data , get_Number_of_ndoe , insert_back , getHead
+ - print_data : 印出此 list 中的資料
+ - get_Number_of_ndoe : 回傳有幾筆資料在此 list 中
+ - insert_back : isert 資料在 list 的尾巴
+ - getHead : 回傳此 list 的起始指標
+```cpp
+class adjList
+{
+public:
+    class node
+    {
+    public:
+        int data;
+        node *link;
+    };
+    adjList()
+    {
+        tail = NULL;
+        head = tail;
+        number_of_node = 0;
+    }
+    void print_data(void)
+    {
+        node *temp = head;
+        if (temp)
+        {
+            for (temp; temp != NULL; temp = temp->link)
+            {
+                cout << temp->data << "->";
+            }
+            cout << "NULL" << endl;
+        }
+        else
+            cout << "empty" << endl;
+    }
+    inline int get_Number_of_ndoe()
+    {
+        return number_of_node;
+    }
+    void insert_back(int value)
+    {
+        node *insert;
+        try
+        {
+            insert = new node;
+        }
+        catch (const std ::bad_alloc &e)
+        {
+            cout << "Allocation failed: " << e.what() << '\n';
+            exit(1);
+        }
+        insert->data = value;
+        insert->link = NULL;
+        if (head)
+        {
+            tail->link = insert;
+            tail = insert;
+            number_of_node++;
+        }
+        else
+        {
+            head = insert;
+            tail = insert;
+            number_of_node++;
+        }
+    }
+    node *getHead(void)
+    {
+        return head;
+    }
+private:
+    node *head, *tail;
+    int number_of_node;
+};
+```
+ 
+- adjacent list 是用 array 存取 list 的指標來建構的
+```cpp
+adjList *graph = new adjList[number_of_vertex];
 ```
 
 ## 附加文件
@@ -368,5 +449,4 @@ class queue_round
 - `project2.cpp` 主程式cpp檔
 - `project2.exe` 主程式exe檔
 - `README.md` 此文件的markdown版本。
-
-## 附加工具
+- `GraphGeneratorRan` 測試資料產生執行檔
